@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { Link } from '@reach/router';
-
-
-const Pokemon = ({thisPokemon}) => {
+//  redux, state managers
+const ShowPokemon = ({id}) => {
 
     const [onePokemon, setOnePokemon] = useState({
         name: "",
@@ -11,13 +10,12 @@ const Pokemon = ({thisPokemon}) => {
         sprites: {
             front_default: ""
         }
-    });
+    })
 
-    // data.sprites.front_default
-
-    const getPokemon = (url) => {
-        axios.get(url)
-            .then((response) => {
+    const findOnePokemon = (id) => {
+        axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
+            .then((response) =>{
+                console.log(response);
                 setOnePokemon(response.data);
             })
             .catch((err) => {
@@ -25,17 +23,17 @@ const Pokemon = ({thisPokemon}) => {
             })
     }
 
-    useEffect(() => {
-        getPokemon(thisPokemon.url)
+    useEffect(() =>{
+        findOnePokemon(id);
     }, [])
 
     return (
-        <div class="cell">
-            <p>{onePokemon.name}</p>
+        <div>
+            <p>Name: {onePokemon.name}</p>
             <img src={onePokemon.sprites.front_default}></img>
-            <Link to={`/show/${onePokemon.id}`}>{onePokemon.name}</ Link>
+            <Link to="/">Go back...</Link>
         </div>
     )
-};
+}
 
-export default Pokemon;
+export default ShowPokemon;

@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
+import { Router } from '@reach/router';
 import axios from 'axios';
 import './App.css';
 import DisplayPokemon from './components/DisplayPokemon';
+import ShowPokemon from './components/ShowPokemon';
+import FindPokemon from './components/FindPokemon';
 
 function App() {
 
@@ -20,13 +23,18 @@ function App() {
       })
   }
 
+  // useEffect runs when the page loads
   useEffect(() => {
     get20pokemon();
-  })
+  }, [])
 
   return (
     <div className="App">
-      <DisplayPokemon pokemon={pokemon} />
+      <Router>
+        <DisplayPokemon pokemon={pokemon} path="/"/>
+        <FindPokemon path="/find/" />
+        <ShowPokemon path="/show/:id" />
+      </Router>
     </div>
   );
 }
